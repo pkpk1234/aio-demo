@@ -1,0 +1,19 @@
+javac -encoding "UTF-8" -d mods --module-source-path hello hello/com.example.hello/module-info.java hello/com.example.hello/com/example/hello/HelloModule.java
+
+javac -encoding "UTF-8" -d mods --module-path mods --module-source-path requirer requirer/com.example.requirer/module-info.java requirer/com.example.requirer/com/example/requiere/RequirerMain.java
+
+jar --create --file mlib/com.example.hello.jar  -C mods/com.example.hello .
+
+jar --create --file=mlib/com.example.requirer.jar --main-class=com.example.requiere.RequirerMain -C mods/com.example.requirer .
+
+
+
+javac -d mods2/com.example.requirer --module-path mods requirer/com.example.requirer/module-info.java requirer/com.example.requirer/com/example/requiere/RequirerMain.java
+
+java --module-path mods2 -m com.example.requirer/com.example.requiere.RequirerMain
+
+jar --create --file=mlib2/com.example.hello.jar -C mods2/com.example.hello .
+
+jar --create --file=mlib2/com.example.requirer.jar --main-class=com.example.requiere.RequirerMain -C mods/2com.example.requirer .
+
+java --module-path mlib2 -m com.example.requirer
