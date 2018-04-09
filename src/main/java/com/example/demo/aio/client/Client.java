@@ -25,16 +25,16 @@ public class Client {
 
             Attachment attachment = new Attachment();
             attachment.clientSocketChannel = asynchronousSocketChannel;
-            attachment.isReadMode= false;
+            attachment.isReadMode = false;
             attachment.byteBuffer = ByteBuffer.allocate(2048);
             attachment.mainThread = Thread.currentThread();
 
             byte[] data = "Hello".getBytes(Server.CHARSET);
             attachment.byteBuffer.put(data);
             attachment.byteBuffer.flip();
-            asynchronousSocketChannel.write(attachment.byteBuffer,attachment,new ReadWriteHandler());
+            asynchronousSocketChannel.write(attachment.byteBuffer, attachment, new ReadWriteHandler());
 
-            //?????
+            //因为AsynchronousSocketChannel的读写方法都是非阻塞的，所以需要阻塞当前线程，避免在客户端退出
             attachment.mainThread.join();
         } catch (IOException e) {
             e.printStackTrace();
