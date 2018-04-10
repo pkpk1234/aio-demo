@@ -12,6 +12,7 @@ public class ReadWriteHandler implements CompletionHandler<Integer, AttachMent> 
 
     @Override
     public void completed(Integer readConut, AttachMent attachment) {
+        System.out.println(">>>>>>>> ReadWriteHandler,Thread name is " + Thread.currentThread().getName());
         if (readConut == -1) {
             System.out.println("Server close client " + attachment.clientAddress);
             try {

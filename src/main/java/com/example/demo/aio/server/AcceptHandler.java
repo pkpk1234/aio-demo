@@ -10,14 +10,15 @@ import java.nio.channels.CompletionHandler;
  * @author 李佳明 https://github.com/pkpk1234
  * @date 2018-04-09
  */
-public class AcceptHandler implements CompletionHandler<AsynchronousSocketChannel,AttachMent>{
+public class AcceptHandler implements CompletionHandler<AsynchronousSocketChannel, AttachMent> {
     @Override
     public void completed(AsynchronousSocketChannel client, AttachMent attachment) {
+        System.out.println(">>>>>>>> AcceptHandler,Thread name is " + Thread.currentThread().getName());
         try {
             SocketAddress clientAdress = client.getRemoteAddress();
             System.out.println("Server accept client :" + clientAdress);
-            //???
-            attachment.serverSocketChannel.accept(attachment,this);
+            //为什么此处需要再次accept？？？
+            attachment.serverSocketChannel.accept(attachment, this);
 
             AttachMent newAttachMent = new AttachMent();
             newAttachMent.clientAddress = clientAdress;
@@ -27,7 +28,7 @@ public class AcceptHandler implements CompletionHandler<AsynchronousSocketChanne
             newAttachMent.byteBuffer = ByteBuffer.allocate(2048);
 
             ReadWriteHandler readWriteHandler = new ReadWriteHandler();
-            client.read(newAttachMent.byteBuffer,newAttachMent,readWriteHandler);
+            client.read(newAttachMent.byteBuffer, newAttachMent, readWriteHandler);
 
         } catch (IOException e) {
             e.printStackTrace();

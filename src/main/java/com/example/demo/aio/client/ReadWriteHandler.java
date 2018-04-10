@@ -18,6 +18,8 @@ public class ReadWriteHandler implements CompletionHandler<Integer, Attachment> 
 
     @Override
     public void completed(Integer readCount, Attachment attachment) {
+        System.out.println(">>>>>>>> ReadWriteHandler,Thread name is " + Thread.currentThread().getName());
+
         if (attachment.isReadMode) {
             //read读取完毕后的回调
             ByteBuffer byteBuffer = attachment.byteBuffer;
