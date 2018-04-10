@@ -35,6 +35,7 @@ public class ReadWriteHandler implements CompletionHandler<Integer, Attachment> 
                     msg = reader.readLine();
                 }
                 if (msg.equalsIgnoreCase("end")) {
+                    //中断client主线程，程序退出
                     attachment.mainThread.interrupt();
                     return;
                 }
