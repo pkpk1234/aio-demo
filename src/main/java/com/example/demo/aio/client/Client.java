@@ -25,6 +25,7 @@ public class Client {
 
             Attachment attachment = new Attachment();
             attachment.clientSocketChannel = asynchronousSocketChannel;
+            // 初始化为非read模式
             attachment.isReadMode = false;
             attachment.byteBuffer = ByteBuffer.allocate(2048);
             attachment.mainThread = Thread.currentThread();
@@ -32,6 +33,8 @@ public class Client {
             byte[] data = "Hello".getBytes(Server.CHARSET);
             attachment.byteBuffer.put(data);
             attachment.byteBuffer.flip();
+
+            //客户端连接成功后，启动异步写
             asynchronousSocketChannel.write(attachment.byteBuffer, attachment, new ReadWriteHandler());
 
             //因为AsynchronousSocketChannel的读写方法都是非阻塞的，所以需要阻塞当前线程，避免在客户端退出

@@ -13,6 +13,7 @@ import java.nio.charset.Charset;
  */
 public class Server {
     public static final Charset CHARSET = Charset.forName("UTF-8");
+
     public static void main(String[] args) {
         AsynchronousServerSocketChannel serverSocketChannel = null;
         try {
@@ -23,9 +24,12 @@ public class Server {
 
             AttachMent attachMent = new AttachMent();
             attachMent.serverSocketChannel = serverSocketChannel;
+
+            //异步启动接收线程
             serverSocketChannel.accept(attachMent,new AcceptHandler());
 
             System.out.println("Echo Server listen to localhost:9090 ...");
+            //主线程阻塞自己，防止服务器线程退出
             Thread.currentThread().join();
         } catch (IOException e) {
             e.printStackTrace();

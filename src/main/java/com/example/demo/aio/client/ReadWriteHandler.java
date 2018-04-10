@@ -19,6 +19,7 @@ public class ReadWriteHandler implements CompletionHandler<Integer, Attachment> 
     @Override
     public void completed(Integer readCount, Attachment attachment) {
         if (attachment.isReadMode) {
+            //read读取完毕后的回调
             ByteBuffer byteBuffer = attachment.byteBuffer;
             byteBuffer.flip();
             int limit = byteBuffer.limit();
@@ -40,13 +41,14 @@ public class ReadWriteHandler implements CompletionHandler<Integer, Attachment> 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            //读取命令行输入的信息之后，再次向服务器写
             attachment.isReadMode = false;
             byteBuffer.clear();
             byteBuffer.put(msg.getBytes(Server.CHARSET));
             byteBuffer.flip();
             attachment.clientSocketChannel.write(byteBuffer, attachment, this);
         } else {
+            //write完成全部写入时的回调
             attachment.isReadMode = true;
             attachment.byteBuffer.clear();
             attachment.clientSocketChannel.read(attachment.byteBuffer, attachment, this);

@@ -10,7 +10,6 @@ import java.nio.channels.AsynchronousSocketChannel;
  */
 public class Attachment {
     public AsynchronousSocketChannel clientSocketChannel;
-    public SocketAddress clientAddress;
     public ByteBuffer byteBuffer;
     public boolean isReadMode;
     public Thread mainThread;
