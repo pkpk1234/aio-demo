@@ -17,7 +17,8 @@ public class AcceptHandler implements CompletionHandler<AsynchronousSocketChanne
         try {
             SocketAddress clientAdress = client.getRemoteAddress();
             System.out.println("Server accept client :" + clientAdress);
-            //为什么此处需要再次accept？？？
+
+            //因为是异步的，所以无限循环的写法不方便，只能通过main->accept->accept...的方式
             attachment.serverSocketChannel.accept(attachment, this);
 
             AttachMent newAttachMent = new AttachMent();
