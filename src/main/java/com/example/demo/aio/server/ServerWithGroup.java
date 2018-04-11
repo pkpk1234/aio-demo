@@ -61,14 +61,14 @@ public class ServerWithGroup {
         });
         serverThread.start();
 
-        while (serverThread.isAlive()) {
+        /*while (serverThread.isAlive()) {
             System.out.println(">>>>>>>> Server thread state " + serverThread.getState());
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
 

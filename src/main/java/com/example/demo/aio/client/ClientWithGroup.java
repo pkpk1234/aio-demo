@@ -2,6 +2,7 @@ package com.example.demo.aio.client;
 
 import com.example.demo.aio.server.Server;
 import com.example.demo.aio.server.ServerWithGroup;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -18,6 +19,7 @@ import java.util.concurrent.ThreadFactory;
  * @author 李佳明 https://github.com/pkpk1234
  * @date 2018-04-09
  */
+@Slf4j
 public class ClientWithGroup {
     public static void main(String[] args) {
         Thread clientThread = new Thread(new Runnable() {
@@ -33,7 +35,7 @@ public class ClientWithGroup {
                     asynchronousSocketChannel = AsynchronousSocketChannel.open(asynchronousChannelGroup);
                     asynchronousSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
                     asynchronousSocketChannel.connect(new InetSocketAddress(InetAddress.getByName("localhost"), 9090)).get();
-                    System.out.println("Client connected");
+                    log.info("Client connected");
 
                     Attachment attachment = new Attachment();
                     attachment.clientSocketChannel = asynchronousSocketChannel;
@@ -73,14 +75,14 @@ public class ClientWithGroup {
         });
         clientThread.start();
 
-        while (clientThread.isAlive()) {
+        /*while (clientThread.isAlive()) {
             System.out.println(">>>>>>>> Server thread state " + clientThread.getState());
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     private static class MyThreadFactory implements ThreadFactory {

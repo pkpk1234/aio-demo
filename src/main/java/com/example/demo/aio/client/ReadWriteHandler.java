@@ -1,6 +1,7 @@
 package com.example.demo.aio.client;
 
 import com.example.demo.aio.server.Server;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,13 +13,16 @@ import java.nio.channels.CompletionHandler;
  * @author 李佳明 https://github.com/pkpk1234
  * @date 2018-04-09
  */
+@Slf4j
 public class ReadWriteHandler implements CompletionHandler<Integer, Attachment> {
 
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     @Override
     public void completed(Integer readCount, Attachment attachment) {
-        System.out.println(">>>>>>>> ReadWriteHandler,Thread name is " + Thread.currentThread().getName());
+        log.info(">>>>>>>> ReadWriteHandler,Thread name is {},readmode is {}"
+                ,Thread.currentThread().getName() ,attachment.isReadMode);
+        new RuntimeException("debug").printStackTrace();
 
         if (attachment.isReadMode) {
             //read读取完毕后的回调
